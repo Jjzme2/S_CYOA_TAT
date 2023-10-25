@@ -1,0 +1,72 @@
+{
+	"cacheDefaultObject": "coldbox",
+	"debuggingEnabled": true,
+	"debuggingReportExecutionTimes": false,
+	"disableInternalCFJavaComponents": false,
+	"requestTimeoutEnabled": true,
+	"requestTimeout": "0,0,5,0",
+	"robustExceptionEnabled": true,
+	"caches": {
+		"coldbox": {
+			"storage": "true",
+			"type": "RAM",
+			"custom": {
+				"timeToIdleSeconds": "1800",
+				"timeToLiveSeconds": "3600"
+			},
+			"class": "lucee.runtime.cache.ram.RamCache",
+			"readOnly": "false"
+		}
+	},
+	"datasources": {
+		"${PRIMARY_DB_DATABASE}": {
+			"bundleName": "${PRIMARY_DB_BUNDLENAME}",
+			"bundleVersion": "${PRIMARY_DB_BUNDLEVERSION}",
+			"class": "${PRIMARY_DB_CLASS}",
+			"connectionLimit": "100",
+			"connectionTimeout": "1",
+			"custom": "useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useLegacyDatetimeCode=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true",
+			"database": "${PRIMARY_DB_DATABASE}",
+			"dbdriver": "${PRIMARY_DB_DRIVER:MySQL}",
+			"dsn": "jdbc:mysql://${PRIMARY_DB_HOST}:${PRIMARY_DB_PORT}/${PRIMARY_DB_DATABASE}",
+			"host": "${PRIMARY_DB_HOST:127.0.0.1}",
+			"password": "${PRIMARY_DB_PASSWORD}",
+			"port": "${PRIMARY_DB_PORT:3306}",
+			"username": "${PRIMARY_DB_USER:root}",
+			"storage": "false"
+		},
+		"${SECONDARY_DB_1_DATABASE}": {
+			"bundleName": "${SECONDARY_DB_1_BUNDLENAME}",
+			"bundleVersion": "${SECONDARY_DB_1_BUNDLEVERSION}",
+			"class": "${SECONDARY_DB_1_CLASS}",
+			"connectionLimit": "100",
+			"connectionTimeout": "1",
+			"custom": "useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useLegacyDatetimeCode=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true",
+			"database": "${SECONDARY_DB_1_DATABASE}",
+			"dbdriver": "${SECONDARY_DB_1_DRIVER:MySQL}",
+			"dsn": "jdbc:mysql://${SECONDARY_DB_1_HOST}:${SECONDARY_DB_1_PORT}/${SECONDARY_DB_1_DATABASE}",
+			"host": "${SECONDARY_DB_1_HOST:127.0.0.1}",
+			"password": "${SECONDARY_DB_1_PASSWORD}",
+			"port": "${SECONDARY_DB_1_PORT:3306}",
+			"username": "${SECONDARY_DB_1_USER:root}",
+			"storage": "false"
+		},
+		"${SECONDARY_DB_2_DATABASE}": {
+			"bundleName": "${SECONDARY_DB_2_BUNDLENAME}",
+			"bundleVersion": "${SECONDARY_DB_2_BUNDLEVERSION}",
+			"class": "${SECONDARY_DB_2_CLASS}",
+			"connectionLimit": "100",
+			"connectionTimeout": "1",
+			"custom": "useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useLegacyDatetimeCode=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true",
+			"database": "${SECONDARY_DB_2_DATABASE}",
+			"dbdriver": "${SECONDARY_DB_2_DRIVER:MySQL}",
+			"dsn": "jdbc:mysql://${SECONDARY_DB_2_HOST}:${SECONDARY_DB_2_PORT}/${SECONDARY_DB_2_DATABASE}",
+			"host": "${SECONDARY_DB_2_HOST:127.0.0.1}",
+			"password": "${SECONDARY_DB_2_PASSWORD}",
+			"port": "${SECONDARY_DB_2_PORT:3306}",
+			"username": "${SECONDARY_DB_2_USER:root}",
+			"storage": "false"
+		}
+	},
+	"whitespaceManagement": "white-space-pref"
+}

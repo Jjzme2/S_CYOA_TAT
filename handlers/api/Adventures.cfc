@@ -88,8 +88,6 @@ component extends = "../BaseHandler" {
 	 ) {
 		var pagesInAdventure = dataServer.getPages( adventureId = rc.id );
 
-		// responder.stopDumpSimple(pagesInAdventure);
-
 		var target = pagesInAdventure;
 
 		var response = {

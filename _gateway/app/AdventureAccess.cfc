@@ -260,6 +260,8 @@
 				AND p.active = <cfqueryparam value="#onlyActive#" cfsqltype="cf_sql_bit">
 			</cfquery>
 
+			<cfset var result = lowerCaseColumns(query=getPages)>
+
 			<cfcatch type="any">
 				<cfset var message = {
 					"customMessage" : "Error occurred in Adventure Access GETPAGES.",
@@ -270,6 +272,7 @@
 			</cfcatch>
 		</cftry>
 
-		<cfreturn converter.QueryToArray(getPages)>
+		<!--- <cfreturn converter.QueryToArray(getPages)> --->
+		<cfreturn result>
 	</cffunction>
 </cfcomponent>

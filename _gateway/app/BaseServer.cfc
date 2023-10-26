@@ -14,11 +14,6 @@ component
 	property
 		name   = "populator"
 		inject = "wirebox:populator";
-	// property name="calculator"  inject="MathService";
-	property
-		name   = "responder"
-		inject = "ResponseService";
-	// property name="timeService" inject="TimeService";
 	property
 		name   = "wirebox"
 		inject = "Wirebox";
@@ -88,13 +83,19 @@ component
 		var response = { };
 		try {
 			var data = accessPoint.list( );
-			response = responder.sendData( data = data );
+
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'BaseServer.getAll'
+			)
 		} catch ( any e ) {
-			response = responder.sendData( messages = [
-				'Base Server - getAll - Failed'
-				,'Error Message: ' & e
-			]);
+			response = errorResponse(
+				error = e
+				,functionName = "BaseServer.getAll"
+			)
 		}
+
 		return response;
 	}
 
@@ -115,63 +116,25 @@ component
 	) {
 		var response = { };
 
-		// Validate Search Params
-		if (
-			!structKeyExists(
-				 searchParams
-				,'searchTerm'
-			)
-		)
-			searchParams.searchTerm = 'id'
-		if (
-			!structKeyExists(
-				 searchParams
-				,'sqlType'
-			)
-		)
-			searchParams.sqlType = 'cf_sql_varchar'
-		if (
-			!structKeyExists(
-				 searchParams
-				,'searchValue'
-			)
-		)
-			throw( 'Search Value is required.' );
-		if (
-			!structKeyExists(
-				 searchParams
-				,'exactMatch'
-			)
-		)
-			searchParams.exactMatch = true;
+		validateParams(params=searchParams);
 
 		try {
 			var data = accessPoint.get(
 				 searchTerm  = searchParams.searchTerm
 				,sqlType     = searchParams.sqlType
 				,searchValue = searchParams.searchValue
-				,exactMatch  = searchParams.exactMatch
+				,exactMatch  = structKeyExists(searchParams, 'exactMatch') ? searchParams.exactMatch : true
 			);
-
-			if (
-				isNull( data ) || !structKeyExists(
-					 data
-					,'id'
-				) || data.id == '' || len( data ) EQ 0
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'BaseServer.read'
 			)
-				response = responder.sendData(
-					 messages = [
-						 'No Records found for { #searchParams.searchTerm# = #searchParams.searchValue# } -- Searching #arguments.searchParams.exactMatch ? 'exact' : 'non-exact'# match.'
-					]
-				);
-			else {
-				response = responder.sendData( data = data );
-			}
 		} catch ( any e ) {
-			response = responder.sendData( messages = [
-				'Base Server - read - Failed'
-				,'Error Message: ' & serializeJSON( e.message )
-			]);			throw( e );
+			response = errorResponse(
+				error = e
+				,functionName = "BaseServer.read"
+			)
 		}
 
 		return response;
@@ -194,37 +157,7 @@ component
 	) {
 		var response = { };
 
-		// Validate Search Params
-		if (
-			!structKeyExists(
-				 searchParams
-				,'relationship'
-			)
-		)
-			searchParams.relationship = 'on'
-		if (
-			!structKeyExists(
-				 searchParams
-				,'sqlType'
-			)
-		)
-			searchParams.sqlType = 'cf_sql_date'
-		if (
-			!structKeyExists(
-				 searchParams
-				,'searchValue'
-			)
-		)
-			throw( 'Search Value is required.' );
-		if (
-			!structKeyExists(
-				 searchParams
-				,'searchTerm'
-			)
-		)
-			searchParams.searchTerm = 'creationDate'
-
-		searchParams.searchTerm = searchParams.searchTerm == 'creationDate' ? 'created_on' : 'modified_on';
+		validateParams(params=searchParams);
 
 		try {
 			var data = accessPoint.getByCreationDate(
@@ -234,25 +167,16 @@ component
 				,searchTerm   = searchParams.searchTerm
 			);
 
-			if (
-				isNull( data ) || !structKeyExists(
-					 data
-					,'id'
-				) || data.id == '' || len( data ) EQ 0
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'BaseServer.getByCreationDate'
 			)
-				response = responder.sendData(
-					 messages = [
-						 'No Records found for { #searchParams.searchTerm# = #searchParams.searchValue# } -- Searching #arguments.searchParams.exactMatch ? 'exact' : 'non-exact'# match.'
-					]
-				);
-			else {
-				response = responder.sendData( data = data );
-			}
 		} catch ( any e ) {
-			response = responder.sendData( messages = [
-				'Base Server - readByDate - Failed'
-				,'Error Message: ' & serializeJSON( e.message )
-			]);			throw( e );
+			response = errorResponse(
+				error = e
+				,functionName = "BaseServer.getByCreationDate"
+			)
 		}
 
 		return response;
@@ -273,12 +197,16 @@ component
 		var response = { };
 		try {
 			var data = accessPoint.create( dto );
-			response = responder.sendData( data = data );
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'BaseServer.create'
+			)
 		} catch ( any e ) {
-			response = responder.sendData( messages = [
-				'Base Server - create - Failed'
-				,'Error Message: ' & serializeJSON( e.message )
-			]);			throw( e );
+			response = errorResponse(
+				error = e
+				,functionName = "BaseServer.create"
+			)
 		}
 
 		return response;
@@ -304,12 +232,16 @@ component
 				 id
 				,data
 			);
-			response = responder.sendData( data = data );
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'BaseServer.update'
+			)
 		} catch ( any e ) {
-			response = responder.sendData( messages = [
-				'Base Server - update - Failed'
-				,'Error Message: ' & serializeJSON( e.message )
-			]);			throw( e );
+			response = errorResponse(
+				error = e
+				,functionName = "BaseServer.update"
+			)
 		}
 
 		return response;
@@ -330,12 +262,16 @@ component
 		var response = { };
 		try {
 			var data = accessPoint.delete( id );
-			response = responder.sendData( data = data );
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'BaseServer.delete'
+			)
 		} catch ( any e ) {
-			response = responder.sendData( messages = [
-				'Base Server - delete - Failed'
-				,'Error Message: ' & serializeJSON( e.message )
-			]);			throw( e );
+			response = errorResponse(
+				error = e
+				,functionName = "BaseServer.delete"
+			)
 		}
 
 		return response;
@@ -360,14 +296,54 @@ component
 				 id
 				,active
 			);
-			response = responder.sendData( data = data );
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'BaseServer.setActive'
+			)
 		} catch ( any e ) {
-			response = responder.sendData( messages = [
-				'Base Server - setActive - Failed'
-				,'Error Message: ' & serializeJSON( e.message )
-			]);			throw( e );
+			response = errorResponse(
+				error = e
+				,functionName = "BaseServer.setActive"
+			)
 		}
 
 		return response;
 	}
-}
+
+	public struct function successResponse(
+		any data = "",
+		string successMessage = "",
+		string functionName = 'BaseServer.successResponse'
+	) {
+			var responder = wirebox.getInstance( 'ResponseService' );
+		// Data wasn't passed in, so return an error message
+		if( isEmpty(data) ) {
+			responder.addMessage(
+				message = "No data found, or passed in in #functionName#" );
+			return responder.getResponse();
+		}
+			responder.setContents( contents = data );
+			responder.addMessage( message = "Successfully found data in  #functionName#" );
+			return responder.getResponse();
+	  }
+
+	  public struct function errorResponse(
+		any error = "",
+		string functionName = 'BaseServer.errorResponse',
+		array customMessages = [],
+	  ) {
+			var responder = wirebox.getInstance( 'ResponseService' );
+
+			responder.addMessage( message = "#error.message#", type="Error");
+			responder.addMessage( message = "An error has occurred in #arguments.functionName#" );
+			for(m in customMessages) {
+				responder.addMessage( message = "#m#", type="Custom");
+			}
+
+			return responder.getResponse();
+
+	  }
+
+
+	}

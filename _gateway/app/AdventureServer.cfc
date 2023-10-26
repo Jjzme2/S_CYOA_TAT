@@ -55,7 +55,36 @@ component
 	 * @return array
 	 */
 	public function getPages ( required string adventureId ) {
-		return accessPoint.getPages ( adventureId );
+		var response = '';
+		try {
+			var data = accessPoint.getPages ( adventureId );
+
+			// Data is a struct containing an array called pages, which are all objects with an id and text value.
+			// We need to convert the text value to a struct.
+
+			// Converts the JSON object 'choices' to a struct.
+			for ( var i = 1; i <= arrayLen(data); i++ ) {
+				if(data[i].choices == 'null'){
+					data[i].choices = [];
+				}else{
+					data[i].choices = deserializeJSON(data[i].choices).pages;
+				}
+			}
+
+
+			response = successResponse(
+				data = data
+				,successMessage = ''
+				,functionName = 'AdventureServer.getPages'
+			)
+		} catch ( any e ) {
+			response = errorResponse(
+				error = e
+				,functionName = "AdventureServer.getPages"
+			)
+		}
+
+		return response;
 	}
 
 }

@@ -22,7 +22,3 @@ yarn-error.log
 /coldbox/**
 /testbox/**
 /modules/**
-
-## Personal Development Files
-/.dev/**
-

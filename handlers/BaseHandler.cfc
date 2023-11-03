@@ -14,6 +14,7 @@ component extends = "coldbox.system.RestHandler" {
 	property
 		name   = "stringUtil"
 		inject = "StringService";
+
 	// property
 	// 	name   = "converter"
 	// 	inject = "ConversionService";

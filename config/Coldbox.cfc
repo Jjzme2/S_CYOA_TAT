@@ -65,6 +65,10 @@
 				 'SECONDARY_DB_1_DATABASE'
 				,''
 			)
+			,'tertiaryDatasource': getSystemSetting(
+				 'SECONDARY_DB_2_DATABASE'
+				,''
+			)
 		};
 
 		/**

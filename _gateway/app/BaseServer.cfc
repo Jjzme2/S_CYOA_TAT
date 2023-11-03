@@ -18,6 +18,7 @@ component
 		name   = "wirebox"
 		inject = "Wirebox";
 
+
 	public any function init ( ) {
 		return this;
 	}
@@ -325,6 +326,9 @@ component
 		}
 			responder.setContents( contents = data );
 			responder.addMessage( message = "Successfully found data in  #functionName#" );
+			if( !isEmpty(successMessage) ) {
+				responder.addMessage( message = "#successMessage#" );
+			}
 			return responder.getResponse();
 	  }
 

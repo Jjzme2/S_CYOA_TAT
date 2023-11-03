@@ -95,6 +95,83 @@ component {
 			}
 		);
 
+		// *API Flash Cards
+		group(
+			 {
+				 'pattern': '/api/flashCards'
+				,'target' : 'api.FlashCards.'
+			}
+			,function ( ) {
+				get(
+					 '/'
+					,'index'
+				)
+				post(
+					 '/'
+					,'create'
+				)
+				put(
+					 '/:id'
+					,'update'
+				)
+				delete(
+					 '/:id'
+					,'delete'
+				)
+			}
+		);
+
+		// *API Categories
+		group(
+			 {
+				 'pattern': '/api/categories'
+				,'target' : 'api.Categories.'
+			}
+			,function ( ) {
+				get(
+					 '/'
+					,'index'
+				)
+				post(
+					 '/'
+					,'create'
+				)
+				put(
+					 '/:id'
+					,'update'
+				)
+				delete(
+					 '/:id'
+					,'delete'
+				)
+			}
+		);
+
+		// *API Quizzes
+		group(
+			 {
+				 'pattern': '/api/quizzes'
+				,'target' : 'api.Quizzes.'
+			}
+			,function ( ) {
+				get(
+					 '/'
+					,'index'
+				)
+				post(
+					 '/'
+					,'create'
+				)
+				put(
+					 '/:id'
+					,'update'
+				)
+				delete(
+					 '/:id'
+					,'delete'
+				)
+			}
+		);
 		// Conventions-Based Routing
 		route( ':handler/:action?' ).end( );
 	}

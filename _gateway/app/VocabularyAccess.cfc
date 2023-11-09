@@ -1,22 +1,22 @@
 /**
  * @Author Jj Zettler
- * @Description This will be the access point for the flashCard table.
+ * @Description This will be the access point for the vocabulary table.
  * @date 9/21/2023
  * @version 0.1
- * @FindOBJECT flashCard
+ * @FindOBJECT vocabulary
  * @FindCOLUMNS t.id
  * ,t.created_on
  * ,t.modified_on
  * ,t.active
  * ,t.category_id
- * ,t.question
- * ,t.answer
+ * ,t.vocabulary_word as word
+ * ,t.vocabulary_definition as definition
  */
 
 // cfformat-ignore-start
 <cfcomponent output="false" extends="BaseAccess">
 
-	<cfset tableName  = "flash_cards"> <!--- ?Lowercase and plural this, following whatever is in the database. --->
+	<cfset tableName  = "vocabulary"> <!--- ?Lowercase and plural this, following whatever is in the database. --->
 	<cfset dataSource = application.cbController.getSetting( 'secondaryDatasource' )>
 
 	<!---
@@ -27,29 +27,27 @@
 	 --->
 
 	<cffunction name="create" access="package" returntype="boolean" output="false" hint="Adds a new entry into the database.">
-		<cfargument name="entity" type="flashCardDTO" required="true">
+		<cfargument name="entity" type="vocabularyDTO" required="true">
 
 		<cftry>
 			<cfquery datasource=#dataSource#>
-				INSERT INTO #tableName# (
-					 t.id
-					,t.active
-					,t.category_id
-					,t.question
-					,t.answer
-				)
+				INSERT INTO #tableName# (t.id
+				,t.active
+				,t.category_id
+				,t.vocabulary_word
+				,t.vocabulary_definition)
 				VALUES (
 					<cfqueryparam  value="#entity.getId()#"  cfsqltype="cf_sql_varchar">
-					,<cfqueryparam  value="#entity.getActive()#"  cfsqltype="cf_sql_bit">
-					,<cfqueryparam  value="#entity.getCategoryId()#"  cfsqltype="cf_sql_varchar">
-					,<cfqueryparam  value="#entity.getQuestion()#"  cfsqltype="cf_sql_varchar">
-					,<cfqueryparam  value="#entity.getAnswer()#"  cfsqltype="cf_sql_varchar">
+					,<cfqueryparam value="#entity.getActive()#" cfsqltype="cf_sql_bit">
+					,<cfqueryparam value="#entity.getCategoryId()#" cfsqltype="cf_sql_varchar">
+					,<cfqueryparam value="#entity.getWord()#" cfsqltype="cf_sql_varchar">
+					,<cfqueryparam value="#entity.getDefinition()#" cfsqltype="cf_sql_varchar">
 				)
 			</cfquery>
 
 			<cfcatch type="any">
 				<cfset var message = {
-					"customMessage": "Error occurred in flashCard Access CREATE.",
+					"customMessage": "Error occurred in vocabulary Access CREATE.",
 					"errorMessage": "#cfcatch.message#" }>
 				<cfthrow type="CustomError" message=#serializeJSON(message)#>
 				<cfreturn false>
@@ -68,18 +66,17 @@
 				UPDATE #tableName# t
 				SET
 					t.id = <cfqueryparam  value="#entity.getId()#"  cfsqltype="cf_sql_varchar">
-					,t.modified_on = <cfqueryparam  value="#entity.getModifiedOn()#"  cfsqltype="cf_sql_timestamp">
-					,t.active = <cfqueryparam  value="#entity.getActive()#"  cfsqltype="cf_sql_bit">
-					,t.category_id = <cfqueryparam  value="#entity.getCategoryId()#"  cfsqltype="cf_sql_varchar">
-					,t.question = <cfqueryparam  value="#entity.getQuestion()#"  cfsqltype="cf_sql_varchar">
-					,t.answer = <cfqueryparam  value="#entity.getAnswer()#"  cfsqltype="cf_sql_varchar">
+					,t.active = <cfqueryparam value="#entity.getActive()#" cfsqltype="cf_sql_bit">
+					,t.category_id = <cfqueryparam value="#entity.getCategoryId()#" cfsqltype="cf_sql_varchar">
+					,t.vocabulary_word = <cfqueryparam value="#entity.getWord()#" cfsqltype="cf_sql_varchar">
+					,t.vocabulary_definition = <cfqueryparam value="#entity.getDefinition()#" cfsqltype="cf_sql_varchar">
 
 				WHERE t.id       = <cfqueryparam value="#currentId#" 			 cfsqltype="cf_sql_varchar">
 			</cfquery>
 
 			<cfcatch type="any">
 				<cfset var message = {
-					"customMessage": "Error occurred in flashCard Access UPDATE.",
+					"customMessage": "Error occurred in vocabulary Access UPDATE.",
 					"errorMessage": "#cfcatch.message#" }>
 
 				<cfthrow type="CustomError" message=#serializeJSON(message)#>
@@ -115,8 +112,8 @@
 				,t.modified_on
 				,t.active
 				,t.category_id
-				,t.question
-				,t.answer
+				,t.vocabulary_word as word
+				,t.vocabulary_definition as definition
 				FROM #tableName# t
 				<cfif arguments.exactMatch>
 					WHERE #searchTerm# = <cfqueryparam value="#searchValue#" cfsqltype="#sqlType#">
@@ -133,7 +130,7 @@
 
 			<cfcatch type="any">
 				<cfset var message = {
-					"customMessage": "Error occurred in flashCard Access GET.",
+					"customMessage": "Error occurred in vocabulary Access GET.",
 					"errorMessage": "#cfcatch.message#" }>
 
 				<cfthrow type="CustomError" message=#serializeJSON(message)#>
@@ -172,8 +169,8 @@
 				,t.modified_on
 				,t.active
 				,t.category_id
-				,t.question
-				,t.answer
+				,t.vocabulary_word as word
+				,t.vocabulary_definition as definition
 
 				FROM #tableName# t
 
@@ -223,7 +220,7 @@
 			</cfquery>
 			<cfcatch type="any">
 				<cfset var message = {
-					"customMessage" : "Error occurred in flashCard Access GETBYCREATIONDATE.",
+					"customMessage" : "Error occurred in vocabulary Access GETBYCREATIONDATE.",
 					"errorMessage"  : "#cfcatch.message#"
 				}>
 

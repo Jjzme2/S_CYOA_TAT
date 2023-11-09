@@ -15,7 +15,7 @@
 // cfformat-ignore-start
 <cfcomponent output = 'false' extends = 'BaseAccess'>
 	<cfset tableName = 'quotes'> /* ?Lowercase and plural this, following whatever is in the database. */
-	<cfset dataSource = application.cbController.getSetting( 'secondaryDatasource' )>
+	<cfset dataSource = application.cbController.getSetting( 'tertiaryDatasource' )>
 
 	<cffunction name = 'get'
 				access = 'package'

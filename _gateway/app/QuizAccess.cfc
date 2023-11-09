@@ -8,7 +8,7 @@
  * ,t.created_on
  * ,t.modified_on
  * ,t.active
- * ,t.quiz_id
+ * ,t.category_id
  * ,t.quiz_data
  */
 
@@ -16,7 +16,7 @@
 <cfcomponent output="false" extends="BaseAccess">
 
 	<cfset tableName  = "quizzes"> <!--- ?Lowercase and plural this, following whatever is in the database. --->
-	<cfset dataSource = application.cbController.getSetting( 'tertiaryDatasource' )>
+	<cfset dataSource = application.cbController.getSetting( 'secondaryDatasource' )>
 
 	<!---
 	 * -------------------------------------------------------------
@@ -32,7 +32,7 @@
 			<cfquery datasource=#dataSource#>
 				INSERT INTO #tableName# (t.id
 				,t.active
-				,t.quiz_id
+				,t.category_id
 				,t.quiz_data
 				)
 				VALUES (
@@ -66,7 +66,7 @@
 					 t.id = <cfqueryparam  value="#entity.getId()#"  cfsqltype="cf_sql_varchar">
 					,t.modified_on = <cfqueryparam  value="#entity.getModifiedOn()#"  cfsqltype="cf_sql_timestamp">
 					,t.active = <cfqueryparam  value="#entity.getActive()#"  cfsqltype="cf_sql_bit">
-					,t.quiz_id = <cfqueryparam  value="#entity.getQuizId()#"  cfsqltype="cf_sql_varchar">
+					,t.category_id = <cfqueryparam  value="#entity.getQuizId()#"  cfsqltype="cf_sql_varchar">
 					,t.quiz_data = <cfqueryparam  value="#entity.getQuizData()#"  cfsqltype="cf_sql_varchar">
 
 				WHERE t.id       = <cfqueryparam value="#currentId#" 			 cfsqltype="cf_sql_varchar">
@@ -109,7 +109,7 @@
 				,t.created_on
 				,t.modified_on
 				,t.active
-				,t.quiz_id
+				,t.category_id
 				,t.quiz_data
 				FROM #tableName# t
 				<cfif arguments.exactMatch>
@@ -165,7 +165,7 @@
 				,t.created_on
 				,t.modified_on
 				,t.active
-				,t.quiz_id
+				,t.category_id
 				,t.quiz_data
 
 				FROM #tableName# t

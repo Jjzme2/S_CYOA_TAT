@@ -16,7 +16,7 @@
 <cfcomponent output="false" extends="BaseAccess">
 
 	<cfset tableName  = "learning_categories">
-	<cfset dataSource = application.cbController.getSetting( 'tertiaryDatasource' )>
+	<cfset dataSource = application.cbController.getSetting( 'secondaryDatasource' )>
 
 	<!---
 	 * -------------------------------------------------------------

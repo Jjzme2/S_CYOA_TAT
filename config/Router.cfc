@@ -31,6 +31,8 @@ component {
 			return 'Ok!';
 		} );
 
+		// Activities
+
 		// *API Authors
 		group(
 			 {
@@ -95,11 +97,14 @@ component {
 			}
 		);
 
-		// *API Flash Cards
+
+		// Learning
+
+		// *API Categories
 		group(
 			 {
-				 'pattern': '/api/flashCards'
-				,'target' : 'api.FlashCards.'
+				 'pattern': '/api/categories'
+				,'target' : 'api.Categories.'
 			}
 			,function ( ) {
 				get(
@@ -121,11 +126,11 @@ component {
 			}
 		);
 
-		// *API Categories
+		// *API Flash Cards
 		group(
 			 {
-				 'pattern': '/api/categories'
-				,'target' : 'api.Categories.'
+				 'pattern': '/api/flashCards'
+				,'target' : 'api.FlashCards.'
 			}
 			,function ( ) {
 				get(
@@ -168,6 +173,32 @@ component {
 				)
 				delete(
 					 '/:id'
+					,'delete'
+				)
+			}
+		);
+
+		// *API Vocabulary
+		group(
+			{
+				'pattern': '/api/vocabulary'
+				,'target' : 'api.Vocabulary.'
+			}
+			,function ( ) {
+				get(
+					'/'
+					,'index'
+				)
+				post(
+					'/'
+					,'create'
+				)
+				put(
+					'/:id'
+					,'update'
+				)
+				delete(
+					'/:id'
 					,'delete'
 				)
 			}
